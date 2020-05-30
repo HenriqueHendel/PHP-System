@@ -47,22 +47,43 @@ function gerar_nota(){
 
     cliente = document.getElementById("cliente").value || null;
     frete = document.getElementById("frete").value || null;
+    
+    if(frete==null || frete==""){
+        verifica_frete();
+        function verifica_frete(){
+            frete = parseFloat(prompt("Digite o valor do frete"));
+            if(frete=="" || frete==null){
+                verifica_frete();
+            }
+        }   
+    }
+
     lanches+="Frete--------R$"+frete+"<br>" || null;
     valor_total += parseFloat(frete);
 
 
-    if((cliente==null) || (lanches=="string") || (frete==null)){
-        window.location.href="novo_pedido.php";
-    }else{
-        if(observacoes==null || observacoes=="" || typeof(observacoes)==undefined){
-            observacoes="sem observação";
-            descricao = 'BOKA HAMBURGUERIA <br> São Francisco de Assis 253 <br> 75991105059 <br> hamburgueriadoboka@gmail.com <br> --------------------------- <br> CLIENTE: <br>'+cliente+'<br> --------------------------- <br> DESCRIÇÃO DA COMANDA: <br>' +lanches+' --------------------------- <br> VALOR A SER PAGO: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> DESEJA CONFIRMAR O PEDIDO? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Preparar Pedido</button>';
-        }else{
-            descricao = 'BOKA HAMBURGUERIA <br> São Francisco de Assis 253 <br> 75991105059 <br> hamburgueriadoboka@gmail.com <br> --------------------------- <br> CLIENTE: <br>'+cliente+'<br> --------------------------- <br> DESCRIÇÃO DA COMANDA: <br>'+lanches+' --------------------------- <br> OBSERVAÇÕES DO CLIENTE: <br>'+observacoes+'<br> -------------------------- <br>VALOR A SER PAGO: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> DESEJA CONFIRMAR O PEDIDO? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Preparar Pedido</button>';
+    if(cliente==null){
+        verifica_cliente();
+        function verifica_cliente(){
+            cliente = prompt("Digite o nome do cliente");
+            if(cliente=="" || cliente==null){
+                verifica_cliente();
+            }
         }
-        document.getElementById("descricao").innerHTML = descricao;
-
     }
+    
+    if(lanches=="string"){
+        document.location="novo_pedido.php";
+    }
+    
+    if(observacoes==null || observacoes=="" || typeof(observacoes)==undefined){
+        observacoes="sem observação";
+        descricao = 'BOKA HAMBURGUERIA <br> R. São Francisco de Assis, 253 <br> 75 99110-5059 <br> hamburgueriadoboka@gmail.com <br> --------------------------- <br> CLIENTE: <br>'+cliente+'<br> --------------------------- <br> DESCRIÇÃO DA COMANDA: <br>' +lanches+' --------------------------- <br> VALOR A SER PAGO: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> DESEJA CONFIRMAR O PEDIDO? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Preparar Pedido</button>';
+    }else{
+        descricao = 'BOKA HAMBURGUERIA <br> R. São Francisco de Assis, 253 <br> 75 99110-5059 <br> hamburgueriadoboka@gmail.com <br> --------------------------- <br> CLIENTE: <br>'+cliente+'<br> --------------------------- <br> DESCRIÇÃO DA COMANDA: <br>'+lanches+' --------------------------- <br> OBSERVAÇÕES DO CLIENTE: <br>'+observacoes+'<br> -------------------------- <br>VALOR A SER PAGO: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> DESEJA CONFIRMAR O PEDIDO? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Preparar Pedido</button>';
+    }
+    document.getElementById("descricao").innerHTML = descricao;
+
 }
 
 function excluir_pedido(){
@@ -86,7 +107,7 @@ function prepara_pedido(){
             case "3":
                 forma_pagamento="Espécie"
                 break;
-        
+                    
             default:
                 alert("A forma de pagamento não foi definida corretamente. Por favor, utilize os valores 1, 2 ou 3");
                 forma_pagamento = prompt("Especifique a forma de pagamento do cliente \n 1 para Débito \n 2 para Crédito \n 3 para Espécie");

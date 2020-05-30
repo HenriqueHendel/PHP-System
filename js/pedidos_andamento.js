@@ -5,10 +5,7 @@ function pedido_finalizado(id_cliente, acao){
     
         xmlhttp.onload = ()=>{
             if(xmlhttp.readyStatus==4){
-                if(xmlhttp.status==200){
-                    alert(xmlhttp.responseText);
-                    window.location.href = "index.php";
-                }else{
+                if(!xmlhttp.status==200){
                     alert(xmlhttp.responseText);
                 }
             }else{
@@ -20,6 +17,7 @@ function pedido_finalizado(id_cliente, acao){
         xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         if(acao=="pedido finalizado"){
             xmlhttp.send("id_cliente="+id_cliente+"&pedido_finalizado=sim"); 
+            document.location="index.php";
         }else{
             alert("Não foi possível terminar o pedido");
         }
@@ -35,10 +33,7 @@ function pedido_excluido(id_cliente, acao){
     
         xmlhttp.onload = ()=>{
             if(xmlhttp.readyStatus==4){
-                if(xmlhttp.status==200){
-                    alert(xmlhttp.responseText);
-                    window.location.href = "index.php";
-                }else{
+                if(!xmlhttp.status==200){
                     alert(xmlhttp.responseText);
                 }
             }else{
@@ -50,6 +45,7 @@ function pedido_excluido(id_cliente, acao){
         xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         if(acao=="pedido cancelado"){
             xmlhttp.send("id_cliente="+id_cliente+"&pedido_cancelado=sim"); 
+            document.location="index.php";
         }else{
             alert("Não foi possível cancelar o pedido");
         }

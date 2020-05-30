@@ -15,38 +15,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Company Name</title>
+        <title>Boka Hamburgueria</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <?php
     
-        $usuarios = DBread("pedidos",null,"id_cliente,cliente,valor_total,valor_pago,valor_troco,pedido,frete,forma_pagamento,data_pedido");
+        $usuarios = DBread("pedidos",null,"id_cliente,cliente,valor_total,valor_pago,valor_pedido,data_pedido,pedido,frete,forma_pagamento");
+        $usuarios_despesas = DBread("despesas",null,"valor");
 
-        $saldo_caixa=0;
+        $lucro=0;
         $qtd_pedidos=0;
         $entradas=0;
-        $saidas=0;
+        $despesas=0;
+
+        if($usuarios_despesas){
+            foreach($usuarios_despesas as $gastos){
+                $despesas=$despesas+(float)$gastos["valor"];
+            }
+        }
 
         if($usuarios){
             foreach($usuarios as $valores){
-                $entradas = $entradas+((float)$valores["valor_total"]-(float)["frete"]);
-                $saidas = $saidas+(float)$valores["valor_troco"];
+                $entradas = $entradas+(float)$valores["valor_pedido"];
                 $qtd_pedidos = $qtd_pedidos+1;
             }
-        }else{
-            $entradas=0.0;
-            $saidas=0.0;
-        }
 
-        $saldo_caixa = $entradas-$saidas;
+            $lucro = $entradas - $despesas;
+        }
 
 
     ?>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">Company Name</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="index.html">Boka Hamburgueria</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -80,42 +83,15 @@
                                     <a class="nav-link" href="pedidos_andamento.php">Pedidos em Andamento</a>
                                 </nav>
                             </div>
-                            <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
+                            <a class="nav-link" href="despesas.php"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"
-                                        >Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"
-                                        >Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts</a
-                            ><a class="nav-link" href="tables.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables</a
-                            > -->
+                                Despesas</a
+                            >
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">User:</div>
-                        User
+                        <div class="small">Usuário:</div>
+                        Gabriel
                     </div>
                 </nav>
             </div>
@@ -127,14 +103,6 @@
                             <li class="breadcrumb-item active"></li>
                         </ol>
                         <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Saldo do Caixa</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <strong><?php echo($saldo_caixa)?> R$</strong>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Qtd. de Pedidos</div>
@@ -153,9 +121,17 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Saídas</div>
+                                    <div class="card-body">Despesas</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <strong><?php echo($saidas)?> R$</strong>
+                                        <strong><?php echo($despesas)?> R$</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Lucro</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <strong><?php echo($lucro)?> R$</strong>
                                     </div>
                                 </div>
                             </div>
@@ -185,9 +161,10 @@
                                                 <th>Pedido</th>
                                                 <th>Valor do Pedido</th>
                                                 <th>Valor Pago</th>
-                                                <th>Troco</th>
                                                 <th>Frete</th>
+                                                <th>Data</th>
                                                 <th>Pagamento</th>
+                                                <th>Excluir</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -196,9 +173,10 @@
                                                 <th>Pedido</th>
                                                 <th>Valor do Pedido</th>
                                                 <th>Valor Pago</th>
-                                                <th>Troco</th>
                                                 <th>Frete</th>
+                                                <th>Data</th>
                                                 <th>Pagamento</th>
+                                                <th>Excluir</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -211,9 +189,10 @@
                                                                 <td>'.$usuario["pedido"].'</td>
                                                                 <td>'.$usuario["valor_total"].'</td>
                                                                 <td>'.$usuario["valor_pago"].'</td>
-                                                                <td>'.$usuario["valor_troco"].'</td>
+                                                                <td>'.$usuario["frete"].'</td>
                                                                 <td>'.$usuario["data_pedido"].'</td>
                                                                 <td>'.$usuario["forma_pagamento"].'</td>
+                                                                <td><button class = "btn btn-danger" onclick="excluir_pedido('.$usuario["id_cliente"].');"><i class="fas fa-trash-alt"></i></button>
                                                             </tr>
                                                         ');
                                                     }
@@ -231,7 +210,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Company Name 2020</div>
+                            <div class="text-muted">Copyright &copy; Boka Hamburgueria 2020</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -252,4 +231,5 @@
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
+    <script src="./js/excluir_pedido.js"></script>
 </html>

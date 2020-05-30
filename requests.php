@@ -18,6 +18,7 @@
                 $valor_troco=(float)$_POST["valor_troco"];
                 $forma_pagamento=$_POST["forma_pagamento"];
                 $data_pedido=$_POST["data_pedido"];
+                $valor_pedido = $valor_total-$frete;
                 
                 $pedido_andamento = array(
                     "cliente"=>$cliente,
@@ -28,6 +29,7 @@
                     "valor_pago"=>$valor_pago,
                     "valor_troco"=>$valor_troco,
                     "data_pedido"=>$data_pedido,
+                    "valor_pedido"=>$valor_pedido,
                     "forma_pagamento"=>$forma_pagamento
                 );
 
@@ -35,14 +37,14 @@
 
                 if($result){
                     echo("O pedido foi finalizado e está sendo preparado");
-                    finaliza_pedido($cliente,$pedido,$frete,$valor_total,$valor_pago,$valor_troco,$data_pedido,$forma_pagamento);
+                    finaliza_pedido($cliente,$pedido,$frete,$valor_total,$valor_pago,$valor_troco,$data_pedido,$forma_pagamento,$valor_pedido);
                 }else{
                     echo("Não foi possível finalizar o pedido");
                 }
             }
 
         // Armazenado informações do pedido no banco de dados quando este for finalizado
-            function finaliza_pedido($cliente,$pedido,$frete,$valor_total,$valor_pago,$valor_troco,$data_pedido,$forma_pagamento){
+            function finaliza_pedido($cliente,$pedido,$frete,$valor_total,$valor_pago,$valor_troco,$data_pedido,$forma_pagamento,$valor_pedido){
 
                 $informacoes_pedido = array(
                     "cliente"=>$cliente,
@@ -52,6 +54,7 @@
                     "valor_pago"=>$valor_pago,
                     "valor_troco"=>$valor_troco,
                     "data_pedido"=>$data_pedido,
+                    "valor_pedido"=>$valor_pedido,
                     "forma_pagamento"=>$forma_pagamento
                 );
 
@@ -69,6 +72,7 @@
 
                     if($result){
                         echo("O pedido foi concluído");
+                        // echo("<script>document.location= 'index.php';</script>");
                     }else{
                         echo("Não foi possível terminar o pedido");
                     }
@@ -83,8 +87,21 @@
                     if($result_pedido){
                         echo("O pedido foi cancelado");
                     }else{
-                        echo("não foi possível cancelar o pedido");
+                        echo("Não foi possível cancelar o pedido");
                     }
                 }
+
+            // Excluindo pedido já feito e salvo no histórico de pedidos
+            if(isset($_POST["excluir_pedido"])){
+                $id_cliente = $_POST["id_cliente"];
+                $result_pedido = DBdelete("pedidos","id_cliente=$id_cliente");
+
+            
+                if($result_pedido){
+                    echo("O pedido foi excluído");
+                }else{
+                    echo("Não foi possível excluir o pedido");
+                }
+            }
 
         
