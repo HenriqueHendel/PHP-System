@@ -44,4 +44,4 @@ This project is a part of my personal portfilio and my objective is improve my c
 
 - [PHP](https://www.php.net/)
 - [MySQL](https://www.mysql.com/)
-- [BootStrao](https://getbootstrap.com/)
+- [BootStrap](https://getbootstrap.com/)
