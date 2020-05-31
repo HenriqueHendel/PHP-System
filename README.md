@@ -1,5 +1,5 @@
 # PHP-System
-This is a system build with PHP to register customers data in a database. In this example, the system is to regster billing data of snacks bar, cafe, small restaurants and etc.
+This is a system build with PHP to register customers data in a database. In this example, the system is to register billing data of snacks bar, cafe, small restaurants and etc.
 
 ## About This Project
 It is a simple system, where the cashier can register customers billings.
@@ -11,12 +11,12 @@ This project is a part of my personal portfilio and my objective is improve my c
 ## How To Use This System
 
 ### Index Page 
-- In the index page, you can see informations about your company, as how many customers you have attended, the cash-flow, the expenses and the profit on the colorful cards. On the table, you can see the billing of all your customers, in addition to anything you want to register about your customer.
+- In the index page, you can see informations about your company, as how many customers you have attended, the cash-flow, the expenses and the profit on the colorful cards. On the table, you can see the billing of all your customers, in addition to anything you want to register about him.
 
 ![Index Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/Index_page.png)
 
 ### Order Page
-- In the order page, you can put your menu and select the food and drinks according the customer asks. After that, you select the shipping rate, if to dekivery, and any discount, if you want. To finish, you click on the button "Calculate Order" to generate a text that describe all billing of your customers, calculating automatically the values. If you want, you can send this text to your customer, if the the order is online. You can too delete the order, if something is wrong. If everthing is good, you can confirm the order by click on the button "Confirm Order", select how much the customer paid (to calculate the change and save the values) and how he paid. 
+- In the order page, you can put your menu and select the food and drinks according the customer order. After that, you select the shipping rate, if to delivery, and any discount, if you want. To finish, you click on the button "Calculate Order" to generate a text that describe all billing of your customer, calculating automatically the values. If you want, you can send this text to your customer, if the the order is online. You can too delete the order, if something is wrong. If everthing is good, you can confirm the order by click on the button "Confirm Order", selecting how much the customer paid (to calculate the change and save the values) and how he paid. 
 
 ![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_1.png)
 ![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_2.png)
@@ -28,7 +28,7 @@ This project is a part of my personal portfilio and my objective is improve my c
 ![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_8.png)
 
 ### Order in Progress Page 
-- After that, the order will be send to "Order in Progress" page. There, you can Finsh the order when it is on the finally ready. Or, you can delete the order, if something happens. If the order is finished, the data will be saved on the database and showed on the table.
+- After that, the order will be send to "Order in Progress" page. There, you can finsh the order when it is finally ready, or you can delete the order, if something wrong happens. If the order is finished, the data will be saved on the database and showed on the table.
 
 ![Order In Progress Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_progress.png)
 ![Order In Progress Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/index_page_order.png)
