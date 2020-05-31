@@ -38,7 +38,7 @@ This project is a part of my personal portfilio and my objective is improve my c
 
 ![Expenses Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/expenses_page.png)
 ![Expenses Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/expenses_page_1.png)
-![Expenses Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/index_pages_expenses.png)
+![Expenses Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/index_page_expenses.png)
 
 ## Built With
 
