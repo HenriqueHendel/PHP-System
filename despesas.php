@@ -22,8 +22,8 @@
     </head>
     <?php
     
-        $usuarios = DBread("pedidos",null,"id_cliente,cliente,valor_total,valor_pago,valor_pedido,data_pedido,pedido,frete,forma_pagamento");
-        $usuarios_despesas = DBread("despesas",null,"valor");
+        $usuarios = DBread("pedidos",null,"valor_pedido");
+        $usuarios_despesas = DBread("despesas",null,"nome,valor,data");
 
         $lucro=0;
         $qtd_pedidos=0;
@@ -49,7 +49,7 @@
     ?>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">Company Name</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="index.html">Expenses</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -97,10 +97,23 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Company Informations</h1>
+                        <h1 class="mt-4">Expenses</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active"></li>
                         </ol>
+                        <h4>Register New Expense</h4>
+                            <form action=<?php echo($_SERVER["PHP_SELF"]) ?> method="POST">
+                                <div class="col-4">
+                                    <input class="form-control" name="despesa" type="text" placeholder="Expense">
+                                </div>
+                                <div class="col-4 mt-3">
+                                    <input class="form-control" name="valor" type="number" placeholder="value">
+                                </div>
+                                <div class="col-4 mt-4">
+                                    <button type="submit" class="btn btn-primary" name="adicionar">Register</button>
+                                </div>
+                            </form>
+                        <hr>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
@@ -136,53 +149,38 @@
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Order History</div>
+                            <div class="card-header"><i class="fas fa-table mr-1"></i></div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Customer</th>
-                                                <th>Order</th>
-                                                <th>Billing</th>
-                                                <th>Valor total</th>
-                                                <th>frete</th>
+                                                <th>Expense</th>
+                                                <th>Value</th>
                                                 <th>Date</th>
-                                                <th>Payament</th>
-                                                <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Customer</th>
-                                                <th>Order</th>
-                                                <th>Billing</th>
-                                                <th>Valor total</th>
-                                                <th>frete</th>
+                                                <th>Expense</th>
+                                                <th>Value</th>
                                                 <th>Date</th>
-                                                <th>Payament</th>
-                                                <th>Delete</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                             <?php 
-                                                if($usuarios){
-                                                    foreach($usuarios as $usuario){
+                                                if($usuarios_despesas){
+                                                    foreach($usuarios_despesas as $usuarios_despesa){
                                                         echo('
                                                             <tr>
-                                                                <td>'.$usuario["cliente"].'</td>
-                                                                <td>'.$usuario["pedido"].'</td>
-                                                                <td>'.$usuario["valor_total"].'</td>
-                                                                <td>'.$usuario["valor_pago"].'</td>
-                                                                <td>'.$usuario["frete"].'</td>
-                                                                <td>'.$usuario["data_pedido"].'</td>
-                                                                <td>'.$usuario["forma_pagamento"].'</td>
-                                                                <td><button class = "btn btn-danger" onclick="excluir_pedido('.$usuario["id_cliente"].');"><i class="fas fa-trash-alt"></i></button>
+                                                                <td>'.$usuarios_despesa["nome"].'</td>
+                                                                <td>'.$usuarios_despesa["valor"].'</td>
+                                                                <td>'.$usuarios_despesa["data"].'</td>
                                                             </tr>
                                                         ');
                                                     }
                                                 }else{
-                                                    echo("<h2>There Is No Orders</h2><hr>");
+                                                    echo("<h2>There Is no Expenses</h2><hr>");
                                                 }
                                             ?>
                                         </tbody>
@@ -216,5 +214,29 @@
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
-    <script src="./js/excluir_pedido.js"></script>
 </html>
+
+<?php 
+
+ if(isset($_POST["adicionar"])){
+
+     $nova_despesa=$_POST["despesa"];
+     $despesa_valor=$_POST["valor"];
+     $date = date('d/m/Y');
+     
+     $dados=array(
+         "nome"=>$nova_despesa,
+         "valor"=>$despesa_valor,
+         "data"=>$date
+     );
+
+     $result=DBcreate("despesas",$dados);
+
+     if($result){
+        echo "<script>document.location='despesas.php'</script>";
+     }else{
+         echo("Não foi possível adicionar a despesa");
+     }
+ }
+
+?>

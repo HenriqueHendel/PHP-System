@@ -4,6 +4,7 @@ var frete;
 var elemento;
 var qtd_produto;
 var valor_total = 0;
+var desconto;
 var valor_troco;
 var valor_pago;
 var confirmados = [];
@@ -39,7 +40,7 @@ function gerar_nota(){
             qtd.push(document.getElementById("codigo_"+elemento.id).value);
             qtd_produto = parseFloat((elemento.value * qtd[i]).toFixed(2));
             confirmados.push(elemento.id);
-            lanches+=qtd[i]+"x "+elemento.name+"--------R$"+qtd_produto+"<br>";
+            lanches+=qtd[i]+"x "+elemento.name+"-------- $"+qtd_produto+"<br>";
             valor_total += qtd_produto;
             pedido += qtd[i]+" "+elemento.name+" <br>";
         }
@@ -47,6 +48,7 @@ function gerar_nota(){
 
     cliente = document.getElementById("cliente").value || null;
     frete = document.getElementById("frete").value || null;
+    desconto = document.getElementById("desconto").value || false;
     
     if(frete==null || frete==""){
         verifica_frete();
@@ -58,8 +60,14 @@ function gerar_nota(){
         }   
     }
 
-    lanches+="Frete--------R$"+frete+"<br>" || null;
+    lanches+="Shipping Rate-------- $"+frete+"<br>" || null;
     valor_total += parseFloat(frete);
+
+    if(desconto){
+        lanches+= "Discount: "+desconto+"% <br>";
+        valor_desconto = parseFloat((desconto/100).toFixed(2));
+        valor_total = valor_total - (valor_total * valor_desconto);
+    }
 
 
     if(cliente==null){
@@ -78,9 +86,9 @@ function gerar_nota(){
     
     if(observacoes==null || observacoes=="" || typeof(observacoes)==undefined){
         observacoes="sem observação";
-        descricao = 'BOKA HAMBURGUERIA <br> R. São Francisco de Assis, 253 <br> 75 99110-5059 <br> hamburgueriadoboka@gmail.com <br> --------------------------- <br> CLIENTE: <br>'+cliente+'<br> --------------------------- <br> DESCRIÇÃO DA COMANDA: <br>' +lanches+' --------------------------- <br> VALOR A SER PAGO: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> DESEJA CONFIRMAR O PEDIDO? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Preparar Pedido</button>';
+        descricao = 'Company Name <br> Address, Street Number <br> Phone <br> companyemail@gmail.com <br> --------------------------- <br> CUSTOMER: <br>'+cliente+'<br> --------------------------- <br> BILLING: <br>' +lanches+' --------------------------- <br> Total: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> CONFIRM ORDER ? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Confirm Order</button>';
     }else{
-        descricao = 'BOKA HAMBURGUERIA <br> R. São Francisco de Assis, 253 <br> 75 99110-5059 <br> hamburgueriadoboka@gmail.com <br> --------------------------- <br> CLIENTE: <br>'+cliente+'<br> --------------------------- <br> DESCRIÇÃO DA COMANDA: <br>'+lanches+' --------------------------- <br> OBSERVAÇÕES DO CLIENTE: <br>'+observacoes+'<br> -------------------------- <br>VALOR A SER PAGO: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> DESEJA CONFIRMAR O PEDIDO? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Preparar Pedido</button>';
+        descricao = 'Company Name <br> Address, Street Number <br> Phone <br> companyemail@gmail.com <br> --------------------------- <br> CUSTOMER: <br>'+cliente+'<br> --------------------------- <br> BILLING: <br>'+lanches+' --------------------------- <br> CUSTOMER OBSERVATIONS: <br>'+observacoes+'<br> -------------------------- <br>TOTAL: <br> R$ '+parseFloat(valor_total.toFixed(2))+' <br> ---------------------------  <br> CONFIRM ORDER ? <br><br><br> <button class="btn btn-primary" onclick="prepara_pedido();"> Confirm Order</button>';
     }
     document.getElementById("descricao").innerHTML = descricao;
 
@@ -91,21 +99,21 @@ function excluir_pedido(){
 }
 
 function prepara_pedido(){
-    valor_pago = parseFloat(prompt("Digite quanto o cliente pagou"));
-    forma_pagamento = prompt("Especifique a forma de pagamento do cliente \n 1 para Débito \n 2 para Crédito \n 3 para Espécie");
+    valor_pago = parseFloat(prompt("How many did the customer pay ?"));
+    forma_pagamento = prompt("How did the customer pay ? \n 1 to Debit Card \n 2 to Credit Card \n 3 to Cash");
     verifica_pagamento();
     function verifica_pagamento(){
         switch (forma_pagamento) {
             case "1":
-                forma_pagamento="Débito"
+                forma_pagamento="Debit Card"
                 break;
             
             case "2":
-                forma_pagamento="Crédito"
+                forma_pagamento="Credit Card"
                 break;
 
             case "3":
-                forma_pagamento="Espécie"
+                forma_pagamento="Cash"
                 break;
                     
             default:

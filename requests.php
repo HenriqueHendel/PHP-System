@@ -36,7 +36,7 @@
                 $result = DBcreate("pedidos_andamento",$pedido_andamento);
 
                 if($result){
-                    echo("O pedido foi finalizado e está sendo preparado");
+                    echo("Order Done and In Progress");
                     finaliza_pedido($cliente,$pedido,$frete,$valor_total,$valor_pago,$valor_troco,$data_pedido,$forma_pagamento,$valor_pedido);
                 }else{
                     echo("Não foi possível finalizar o pedido");
@@ -71,7 +71,7 @@
                     $result = DBdelete("pedidos_andamento","id_cliente=$id_cliente");
 
                     if($result){
-                        echo("O pedido foi concluído");
+                        echo("Order Finished");
                         // echo("<script>document.location= 'index.php';</script>");
                     }else{
                         echo("Não foi possível terminar o pedido");
