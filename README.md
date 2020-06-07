@@ -25,12 +25,12 @@ This project is a part of my personal portfilio and my objective is improve my c
 ![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_5.png)
 ![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_6.png)
 ![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_7.png)
-![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page_8.png)
 
 ### Order in Progress Page 
 - After that, the order will be send to "Order in Progress" page. There, you can finsh the order when it is finally ready, or you can delete the order, if something wrong happens. If the order is finished, the data will be saved on the database and showed on the table.
 
 ![Order In Progress Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_progress.png)
+![Order Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/order_page.png)
 ![Order In Progress Page](https://github.com/HenriqueHendel/PHP-System/blob/master/img/index_page_order.png)
 
 ### Expenses Page
